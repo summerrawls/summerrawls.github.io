@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Rawls — Instructional Design &amp; Project Management</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-logo">Summer Rawls</div>
+  <ul class="nav-links">
+    <li class="current"><a href="index.html">Home</a></li>
+    <li><a href="lyft.html">Lyft</a></li>
+    <li><a href="university-of-alabama.html">University of Alabama</a></li>
+    <li><a href="about.html">About &amp; Resume</a></li>
+  </ul>
+</div>
+
+<div class="hero">
+  <div class="hero-stackname" id="hero-name"></div>
+  <div class="hero-role">Instructional Design &amp; Project Management</div>
+  <div class="hero-tagline">Designing learning that elevates how we work. [placeholder tagline, revisit later]</div>
+</div>
+
+<div class="section-label">
+  <span>Explore the work</span>
+  <div class="line"></div>
+</div>
+
+<div class="branch-grid">
+  <a class="branch-card branch-lyft" href="lyft.html">
+    <span class="branch-tag">Corporate, Lyft</span>
+    <div class="branch-title">Lyft</div>
+    <div class="branch-desc">Customer service learning design at scale: methodology, onboarding systems, and launch readiness training for thousands of agents.</div>
+    <div class="branch-arrow">View flagship projects <span>&rarr;</span></div>
+  </a>
+  <a class="branch-card branch-ua" href="university-of-alabama.html">
+    <span class="branch-tag">Higher Education</span>
+    <div class="branch-title">University of Alabama</div>
+    <div class="branch-desc">Train the trainer programs, skill building curriculum, and retention initiatives built and scaled over three years.</div>
+    <div class="branch-arrow">View programs <span>&rarr;</span></div>
+  </a>
+</div>
+
+<div class="about-strip">
+  <a class="about-card" href="about.html">
+    <div class="about-title">About Me</div>
+    <div class="about-desc">Background, credentials, and how I approach instructional design &rarr;</div>
+  </a>
+</div>
+
+<script>
+// Animate "Summer Rawls" letter by letter
+const nameEl = document.getElementById('hero-name');
+const text = "Summer Rawls";
+let delay = 0.1;
+text.split('').forEach(ch => {
+  const span = document.createElement('span');
+  if (ch === ' ') {
+    span.innerHTML = '&nbsp;';
+  } else {
+    span.textContent = ch;
+    span.style.animationDelay = delay.toFixed(2) + 's';
+    delay += 0.045;
+  }
+  nameEl.appendChild(span);
+});
+
+// Reveal branch cards and about card on load
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.branch-card').forEach((el, i) => {
+    el.style.animationDelay = (0.55 + i * 0.1) + 's';
+    el.classList.add('visible');
+  });
+  const about = document.querySelector('.about-card');
+  about.style.animationDelay = '0.85s';
+  about.classList.add('visible');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10.8x Keyword Increase</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:white;padding:32px 36px;color:#1E212B;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#006D77;margin-bottom:8px;}
+.headline{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#1E212B;line-height:1.1;margin-bottom:6px;}
+.headline span{color:#006D77;}
+.chart-subtitle{font-size:13px;color:#1E212B99;margin-bottom:20px;line-height:1.5;}
+.legend{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#1E212B99;font-weight:500;}
+.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+svg{width:100%;overflow:visible;}
+</style>
+</head>
+<body>
+<div class="eyebrow">Growth Mindset &amp; Imposter Syndrome &middot; Behavioral Outcome</div>
+<div class="headline"><span>10.8x</span> increase</div>
+<div class="chart-subtitle">in occurrence of training keywords in coaching case notes</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#DB6C79;"></div>Growth Mindset</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#C3DBC5;"></div>Imposter Syndrome</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#006D77;"></div>Resilience</div>
+</div>
+<svg viewBox="0 0 500 240" id="gmchart">
+<script>
+const groups=[{label:'Pre-Training',vals:[1,2,4]},{label:'2 Weeks\nPost-Training',vals:[10,12,9]},{label:'6 Weeks\nPost-Training',vals:[17,21,16]}];
+const colors=['#DB6C79','#C3DBC5','#006D77'];
+const W=500,H=200,pL=36,pR=20,pT=20,pB=50;
+const cW=W-pL-pR,cH=H-pT-pB;
+const maxV=25;
+const groupW=cW/groups.length;
+const barW=18,gap=4;
+
+[0,5,10,15,20,25].forEach(v=>{
+  const y=pT+cH-(v/maxV)*cH;
+  const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('x1',pL);line.setAttribute('x2',W-pR);
+  line.setAttribute('y1',y);line.setAttribute('y2',y);
+  line.setAttribute('stroke',v===0?'#1E212B':'#1E212B0F');
+  line.setAttribute('stroke-width',v===0?1.5:1);
+  document.getElementById('gmchart').appendChild(line);
+  const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+  lbl.setAttribute('x',pL-6);lbl.setAttribute('y',y+4);
+  lbl.setAttribute('text-anchor','end');lbl.setAttribute('font-size','10');
+  lbl.setAttribute('fill','#1E212B66');lbl.setAttribute('font-family','Inter,sans-serif');
+  lbl.textContent=v;
+  document.getElementById('gmchart').appendChild(lbl);
+});
+
+groups.forEach((g,gi)=>{
+  const gx=pL+gi*groupW+groupW/2;
+  const totalW=(barW+gap)*3-gap;
+  const startX=gx-totalW/2;
+  g.vals.forEach((v,vi)=>{
+    const bh=(v/maxV)*cH;
+    const by=pT+cH-bh;
+    const bx=startX+vi*(barW+gap);
+    const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x',bx);rect.setAttribute('y',by);
+    rect.setAttribute('width',barW);rect.setAttribute('height',bh);
+    rect.setAttribute('fill',colors[vi]);rect.setAttribute('rx','3');
+    rect.style.animation=`growUp 0.6s cubic-bezier(0.34,1.2,0.64,1) ${0.1+gi*0.2+vi*0.05}s both`;
+    rect.style.transformOrigin=`${bx+barW/2}px ${pT+cH}px`;
+    document.getElementById('gmchart').appendChild(rect);
+    if(v>=5){
+      const val=document.createElementNS('http://www.w3.org/2000/svg','text');
+      val.setAttribute('x',bx+barW/2);val.setAttribute('y',by-4);
+      val.setAttribute('text-anchor','middle');val.setAttribute('font-size','9');
+      val.setAttribute('fill',colors[vi]);val.setAttribute('font-weight','600');
+      val.setAttribute('font-family','Inter,sans-serif');
+      val.textContent=v;
+      document.getElementById('gmchart').appendChild(val);
+    }
+  });
+  const lines=g.label.split('\n');
+  lines.forEach((line,li)=>{
+    const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('x',gx);lbl.setAttribute('y',pT+cH+16+li*13);
+    lbl.setAttribute('text-anchor','middle');lbl.setAttribute('font-size','11');
+    lbl.setAttribute('fill','#1E212B');lbl.setAttribute('font-weight',gi===0?'400':'600');
+    lbl.setAttribute('font-family','Inter,sans-serif');
+    lbl.textContent=line;
+    document.getElementById('gmchart').appendChild(lbl);
+  });
+});
+</script>
+</svg>
+<style>@keyframes growUp{from{transform:scaleY(0)}to{transform:scaleY(1)}}</style>
+</body>
+</html>

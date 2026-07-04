@@ -206,6 +206,10 @@ a { color: inherit; text-decoration: none; }
 .embed-letter { padding: 0; aspect-ratio: 8.5/11; }
 .embed-square { padding: 0; aspect-ratio: 1/1; }
 .embed-slides iframe, .embed-letter iframe, .embed-square iframe { width: 100%; height: 100%; border: none; display: block; }
+.jobaid-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 8px; }
+.jobaid-grid .featured-deliv { margin-bottom: 0; }
+.jobaid-grid .featured-media { aspect-ratio: 8.5/11; padding: 0; }
+.jobaid-grid .featured-media iframe { width: 100%; height: 100%; border: none; display: block; }
 .dataviz-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 8px; }
 .dataviz-grid .featured-deliv { margin-bottom: 0; }
 .dataviz-grid .featured-media { aspect-ratio: 4/3; padding: 0; }

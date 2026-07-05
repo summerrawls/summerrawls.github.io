@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productivity Self-Assessment</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:white;padding:32px 36px;color:#1a1a1a;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9E1B32;margin-bottom:8px;}
+.chart-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:6px;line-height:1.3;}
+.subtitle{font-size:13px;color:#555;margin-bottom:20px;}
+.legend{display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#555;font-weight:500;}
+.legend-line{width:22px;height:3px;border-radius:2px;flex-shrink:0;}
+svg{width:100%;overflow:visible;}
+.line-path{stroke-dasharray:1000;stroke-dashoffset:1000;transition:stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);}
+.line-path.visible{stroke-dashoffset:0;}
+.dot{opacity:0;transition:opacity 0.3s ease;}
+.dot.visible{opacity:1;}
+</style>
+</head>
+<body>
+<div class="eyebrow">Overcoming Procrastination &middot; Longitudinal Outcome Data</div>
+<div class="chart-title">Participant Self-Assessment of Productivity at Work</div>
+<div class="subtitle">Self-rated productivity by job duty type, June–December (workshop occurred in August)</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-line" style="background:#9E1B32;"></div>Core Job Duties</div>
+  <div class="legend-item"><div class="legend-line" style="background:#D4A5A5;"></div>Administrative Tasks</div>
+  <div class="legend-item"><div class="legend-line" style="background:#3A3F47;"></div>Seasonal Duties</div>
+</div>
+<svg viewBox="0 0 560 300" id="prodchart"></svg>
+<script>
+const months=['Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const core=[4,3,6,7,7,9,9],admin=[2,2,5,5,6,8,8],seasonal=[1,2,5,7,8,8,9];
+const colors=['#9E1B32','#D4A5A5','#3A3F47'];
+const datasets=[core,admin,seasonal];
+const W=560,H=260,pL=44,pR=20,pT=20,pB=44,cW=W-pL-pR,cH=H-pT-pB,maxV=10;
+const svg=document.getElementById('prodchart');
+const lines=[],dots=[];
+
+[0,2,4,6,8,10].forEach(v=>{
+  const y=pT+cH-(v/maxV)*cH;
+  const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',pL);l.setAttribute('x2',W-pR);l.setAttribute('y1',y);l.setAttribute('y2',y);
+  l.setAttribute('stroke',v===0?'#1a1a1a':'#eee');l.setAttribute('stroke-width',v===0?1.5:1);
+  svg.appendChild(l);
+  const lb=document.createElementNS('http://www.w3.org/2000/svg','text');
+  lb.setAttribute('x',pL-6);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+  lb.setAttribute('font-size','10');lb.setAttribute('fill','#888');lb.setAttribute('font-family','Inter,sans-serif');
+  lb.textContent=v;svg.appendChild(lb);
+});
+
+months.forEach((m,i)=>{
+  const x=pL+(i/(months.length-1))*cW;
+  const lb=document.createElementNS('http://www.w3.org/2000/svg','text');
+  lb.setAttribute('x',x);lb.setAttribute('y',H-pB+18);lb.setAttribute('text-anchor','middle');
+  lb.setAttribute('font-size','11');lb.setAttribute('fill',i===2?'#9E1B32':'#888');
+  lb.setAttribute('font-weight',i===2?'700':'400');lb.setAttribute('font-family','Inter,sans-serif');
+  lb.textContent=m;svg.appendChild(lb);
+});
+
+// Workshop annotation
+const ax=pL+(2/(months.length-1))*cW;
+const ann=document.createElementNS('http://www.w3.org/2000/svg','line');
+ann.setAttribute('x1',ax);ann.setAttribute('x2',ax);
+ann.setAttribute('y1',pT);ann.setAttribute('y2',pT+cH);
+ann.setAttribute('stroke','#9E1B32');ann.setAttribute('stroke-width','1');ann.setAttribute('stroke-dasharray','4 3');
+svg.appendChild(ann);
+const annlb=document.createElementNS('http://www.w3.org/2000/svg','text');
+annlb.setAttribute('x',ax+4);annlb.setAttribute('y',pT+10);
+annlb.setAttribute('font-size','9');annlb.setAttribute('fill','#9E1B32');annlb.setAttribute('font-style','italic');
+annlb.setAttribute('font-family','Inter,sans-serif');annlb.textContent='Workshop';svg.appendChild(annlb);
+
+datasets.forEach((ds,di)=>{
+  const pts=ds.map((v,i)=>`${pL+(i/(months.length-1))*cW},${pT+cH-(v/maxV)*cH}`).join(' ');
+  const poly=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+  poly.setAttribute('points',pts);poly.setAttribute('fill','none');
+  poly.setAttribute('stroke',colors[di]);poly.setAttribute('stroke-width','2.5');
+  poly.setAttribute('stroke-linejoin','round');poly.setAttribute('stroke-linecap','round');
+  poly.classList.add('line-path');poly.style.transitionDelay=(di*0.2)+'s';
+  svg.appendChild(poly);lines.push(poly);
+  ds.forEach((v,i)=>{
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',pL+(i/(months.length-1))*cW);c.setAttribute('cy',pT+cH-(v/maxV)*cH);c.setAttribute('r',4);
+    c.setAttribute('fill','white');c.setAttribute('stroke',colors[di]);c.setAttribute('stroke-width','2');
+    c.classList.add('dot');c.style.transitionDelay=(di*0.2+i*0.08+0.8)+'s';
+    svg.appendChild(c);dots.push(c);
+  });
+});
+
+const obs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    lines.forEach(l=>l.classList.add('visible'));
+    dots.forEach(d=>d.classList.add('visible'));
+  }
+},{threshold:0.3});
+obs.observe(svg);
+</script>
+</body>
+</html>

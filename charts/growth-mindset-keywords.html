@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10.8x Keyword Increase</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:white;padding:32px 36px;color:#1a1a1a;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9E1B32;margin-bottom:8px;}
+.headline{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#1a1a1a;line-height:1.1;margin-bottom:6px;}
+.headline span{color:#9E1B32;}
+.subtitle{font-size:13px;color:#555;margin-bottom:20px;line-height:1.5;}
+.legend{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#555;font-weight:500;}
+.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.chart-wrap{position:relative;width:100%;}
+svg{width:100%;overflow:visible;}
+.bar{transform-origin:bottom;transform:scaleY(0);transition:transform 0.7s cubic-bezier(0.34,1.2,0.64,1);}
+.bar.visible{transform:scaleY(1);}
+</style>
+</head>
+<body>
+<div class="eyebrow">Growth Mindset &amp; Imposter Syndrome &middot; Behavioral Outcome</div>
+<div class="headline"><span>10.8x</span> increase</div>
+<div class="subtitle">in occurrence of training keywords in coaching case notes</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#9E1B32;"></div>Growth Mindset</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D4A5A5;"></div>Imposter Syndrome</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3A3F47;"></div>Resilience</div>
+</div>
+<div class="chart-wrap">
+<svg viewBox="0 0 500 240" id="gmc"></svg>
+</div>
+<script>
+const groups=[{label:'Pre-Training',vals:[1,2,4]},{label:'2 Weeks Post',vals:[10,12,9]},{label:'6 Weeks Post',vals:[17,21,16]}];
+const colors=['#9E1B32','#D4A5A5','#3A3F47'];
+const W=500,H=200,pL=36,pR=20,pT=20,pB=50,cW=W-pL-pR,cH=H-pT-pB,maxV=25;
+const groupW=cW/groups.length,barW=18,gap=4;
+const svg=document.getElementById('gmc');
+
+[0,5,10,15,20,25].forEach(v=>{
+  const y=pT+cH-(v/maxV)*cH;
+  const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',pL);l.setAttribute('x2',W-pR);l.setAttribute('y1',y);l.setAttribute('y2',y);
+  l.setAttribute('stroke',v===0?'#1a1a1a':'#eee');l.setAttribute('stroke-width',v===0?1.5:1);
+  svg.appendChild(l);
+  const lb=document.createElementNS('http://www.w3.org/2000/svg','text');
+  lb.setAttribute('x',pL-6);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+  lb.setAttribute('font-size','10');lb.setAttribute('fill','#888');lb.setAttribute('font-family','Inter,sans-serif');
+  lb.textContent=v;svg.appendChild(lb);
+});
+
+const bars=[];
+groups.forEach((g,gi)=>{
+  const gx=pL+gi*groupW+groupW/2;
+  const totalW=(barW+gap)*3-gap;
+  const startX=gx-totalW/2;
+  g.vals.forEach((v,vi)=>{
+    const bh=(v/maxV)*cH,by=pT+cH-bh,bx=startX+vi*(barW+gap);
+    const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x',bx);rect.setAttribute('y',by);rect.setAttribute('width',barW);rect.setAttribute('height',bh);
+    rect.setAttribute('fill',colors[vi]);rect.setAttribute('rx','3');
+    rect.style.transformOrigin=`${bx+barW/2}px ${pT+cH}px`;
+    rect.classList.add('bar');
+    rect.style.transitionDelay=(gi*0.15+vi*0.05)+'s';
+    svg.appendChild(rect);bars.push(rect);
+    if(v>=5){
+      const vl=document.createElementNS('http://www.w3.org/2000/svg','text');
+      vl.setAttribute('x',bx+barW/2);vl.setAttribute('y',by-4);vl.setAttribute('text-anchor','middle');
+      vl.setAttribute('font-size','9');vl.setAttribute('fill',colors[vi]);vl.setAttribute('font-weight','600');
+      vl.setAttribute('font-family','Inter,sans-serif');vl.textContent=v;svg.appendChild(vl);
+    }
+  });
+  const xl=document.createElementNS('http://www.w3.org/2000/svg','text');
+  xl.setAttribute('x',gx);xl.setAttribute('y',pT+cH+18);xl.setAttribute('text-anchor','middle');
+  xl.setAttribute('font-size','11');xl.setAttribute('fill','#1a1a1a');xl.setAttribute('font-weight','600');
+  xl.setAttribute('font-family','Inter,sans-serif');xl.textContent=g.label;svg.appendChild(xl);
+});
+
+const obs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting) bars.forEach(b=>b.classList.add('visible'));
+},{threshold:0.3});
+obs.observe(document.querySelector('.chart-wrap'));
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Note Taking Satisfaction</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:white;padding:32px 36px;color:#1a1a1a;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9E1B32;margin-bottom:8px;}
+.chart-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:6px;line-height:1.3;}
+.subtitle{font-size:13px;color:#555;margin-bottom:28px;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.stat-card{background:#faf5f5;border:1px solid #e8d0d0;border-radius:12px;padding:24px 20px;}
+.stat-num{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:#9E1B32;line-height:1;opacity:0;transform:translateY(12px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.stat-num.visible{opacity:1;transform:translateY(0);}
+.stat-pct{font-size:28px;}
+.stat-label{font-size:13.5px;color:#555;margin-top:10px;line-height:1.5;}
+.divider{width:40px;height:3px;background:#9E1B32;border-radius:2px;margin:12px 0;}
+</style>
+</head>
+<body>
+<div class="eyebrow">Note Taking &amp; Information Intake &middot; Post-Workshop Results</div>
+<div class="chart-title">Post-Workshop Learner Outcomes</div>
+<div class="subtitle">Self-reported outcomes from participants at 6-week follow-up</div>
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-num" id="s1">72<span class="stat-pct">%</span></div>
+    <div class="divider"></div>
+    <div class="stat-label">felt more engaged and attentive during lectures and study sessions</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" id="s2">59<span class="stat-pct">%</span></div>
+    <div class="divider"></div>
+    <div class="stat-label">spent less time studying while achieving better results</div>
+  </div>
+</div>
+<script>
+const obs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.getElementById('s1').classList.add('visible');
+    setTimeout(()=>document.getElementById('s2').classList.add('visible'),150);
+  }
+},{threshold:0.3});
+obs.observe(document.querySelector('.stat-grid'));
+</script>
+</body>
+</html>

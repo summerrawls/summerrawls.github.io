@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imposter Syndrome Strategy Usage</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:white;padding:32px 36px;color:#1a1a1a;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9E1B32;margin-bottom:8px;}
+.chart-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:6px;line-height:1.3;}
+.subtitle{font-size:13px;color:#555;margin-bottom:20px;}
+.chart-body{display:flex;gap:28px;align-items:center;flex-wrap:wrap;}
+.legend-list{display:flex;flex-direction:column;gap:10px;flex:1;min-width:180px;}
+.legend-item{display:flex;align-items:center;gap:10px;}
+.legend-swatch{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.legend-text{font-size:12.5px;color:#1a1a1a;flex:1;line-height:1.3;}
+.legend-pct{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#1a1a1a;white-space:nowrap;}
+svg path{transform-origin:center;transition:transform 0.5s ease;}
+</style>
+</head>
+<body>
+<div class="eyebrow">Growth Mindset &amp; Imposter Syndrome &middot; Post-Training Behavior</div>
+<div class="chart-title">Imposter Syndrome Strategy Usage in Coaching Appointments</div>
+<div class="subtitle">Distribution across six intervention strategies, post-training</div>
+<div class="chart-body">
+  <svg width="200" height="200" viewBox="0 0 200 200" id="ispie"></svg>
+  <div class="legend-list" id="islegend"></div>
+</div>
+<script>
+const segments=[
+  {label:'Fears vs. Reality',pct:24.8,color:'#9E1B32'},
+  {label:'Reverse Rabbit Hole',pct:22.4,color:'#D4A5A5'},
+  {label:'Eliminate "What If?" Bias',pct:19.2,color:'#3A3F47'},
+  {label:'Visualize Success',pct:14.4,color:'#C4807F'},
+  {label:'Emotions Portfolio',pct:10.4,color:'#6B2737'},
+  {label:'Comfort Past Self',pct:8.8,color:'#E8D0D0'},
+];
+const svg=document.getElementById('ispie');
+const legend=document.getElementById('islegend');
+let angle=-90;
+const cx=100,cy=100,r=90;
+const paths=[];
+segments.forEach(s=>{
+  const sweep=s.pct/100*360;
+  const start=angle*(Math.PI/180);
+  const end=(angle+sweep)*(Math.PI/180);
+  const x1=cx+r*Math.cos(start),y1=cy+r*Math.sin(start);
+  const x2=cx+r*Math.cos(end),y2=cy+r*Math.sin(end);
+  const large=sweep>180?1:0;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',`M ${cx},${cy} L ${x1},${y1} A ${r},${r} 0 ${large},1 ${x2},${y2} Z`);
+  path.setAttribute('fill',s.color);
+  path.setAttribute('stroke','white');
+  path.setAttribute('stroke-width','2');
+  path.style.transform='scale(0)';
+  svg.appendChild(path);paths.push(path);
+  angle+=sweep;
+  const li=document.createElement('div');
+  li.className='legend-item';
+  li.innerHTML=`<div class="legend-swatch" style="background:${s.color};"></div><div class="legend-text">${s.label}</div><div class="legend-pct">${s.pct}%</div>`;
+  legend.appendChild(li);
+});
+
+const obs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    paths.forEach((p,i)=>{p.style.transitionDelay=(i*0.08)+'s';p.style.transform='scale(1)';});
+  }
+},{threshold:0.3});
+obs.observe(svg);
+</script>
+</body>
+</html>

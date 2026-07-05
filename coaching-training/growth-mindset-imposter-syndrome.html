@@ -6,6 +6,8 @@
 <title>Growth Mindset & Imposter Syndrome — Summer Rawls</title>
 <link rel="stylesheet" href="styles.css">
 <style>
+.chart-section { margin-top: 36px; }
+.chart-section-title { font-size: 18px; font-family: 'Playfair Display', serif; font-weight: 600; color: var(--shadow); margin-bottom: 20px; }
 .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; }
 .chart-card { background: white; border: 1px solid #1E212B1A; border-radius: 14px; padding: 28px 24px; }
 .chart-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #9E1B32; margin-bottom: 6px; }
@@ -14,6 +16,7 @@
 .chart-legend { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
 .chart-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #555; font-weight: 500; }
 .chart-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+svg.inline-chart { width: 100%; overflow: visible; }
 .bar { transform-origin: bottom; transform: scaleY(0); transition: transform 0.7s cubic-bezier(0.34, 1.2, 0.64, 1); }
 .bar.visible { transform: scaleY(1); }
 .pie-path { transform-origin: center; transform: scale(0); transition: transform 0.5s ease; }
@@ -21,7 +24,7 @@
 .pie-legend { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
 .pie-legend-row { display: flex; align-items: center; gap: 8px; }
 .pie-legend-swatch { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
-.pie-legend-label { font-size: 11px; color: #1a1a1a; flex: 1; line-height: 1.3; }
+.pie-legend-label { font-size: 11.5px; color: #1a1a1a; flex: 1; }
 .pie-legend-pct { font-size: 12px; font-weight: 700; color: #1a1a1a; }
 .pie-wrap { display: flex; gap: 20px; align-items: flex-start; }
 </style>
@@ -117,31 +120,35 @@
     </div>
   </div>
 
-  <div class="section-title" style="font-size:18px; margin-top:36px;">Evaluation Visualizations</div>
-  <div class="charts-row">
+  <div class="chart-section">
+    <div class="chart-section-title">Evaluation Visualizations</div>
+    <div class="charts-row" id="gm-charts">
 
-    <div class="chart-card">
-      <div class="chart-eyebrow">Behavioral Outcome</div>
-      <div class="chart-card-title">10.8x Keyword Increase in Case Notes</div>
-      <div class="chart-card-sub">Training keyword occurrences in coaching case notes pre and post-training</div>
-      <div class="chart-legend">
-        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#9E1B32;"></div>Growth Mindset</div>
-        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#D4A5A5;"></div>Imposter Syndrome</div>
-        <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#3A3F47;"></div>Resilience</div>
+      <!-- Chart 1: 10.8x Keyword Increase -->
+      <div class="chart-card" data-animate="gm-bars">
+        <div class="chart-eyebrow">Behavioral Outcome</div>
+        <div class="chart-card-title">10.8x Keyword Increase in Case Notes</div>
+        <div class="chart-card-sub">Training keyword occurrences in coaching case notes pre and post-training</div>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#9E1B32;"></div>Growth Mindset</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#D4A5A5;"></div>Imposter Syndrome</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#3A3F47;"></div>Resilience</div>
+        </div>
+        <svg class="inline-chart" viewBox="0 0 340 200" id="gm-bar-svg"></svg>
       </div>
-      <svg style="width:100%;overflow:visible;" viewBox="0 0 340 180" id="gm-bar-svg"></svg>
-    </div>
 
-    <div class="chart-card">
-      <div class="chart-eyebrow">Post-Training Behavior</div>
-      <div class="chart-card-title">Imposter Syndrome Strategy Usage</div>
-      <div class="chart-card-sub">Distribution across six intervention strategies, post-training</div>
-      <div class="pie-wrap">
-        <svg width="130" height="130" viewBox="0 0 200 200" id="gm-pie-svg" style="flex-shrink:0;"></svg>
-        <div class="pie-legend" id="gm-pie-legend"></div>
+      <!-- Chart 2: Imposter Syndrome Station Usage -->
+      <div class="chart-card" data-animate="gm-pie">
+        <div class="chart-eyebrow">Post-Training Behavior</div>
+        <div class="chart-card-title">Imposter Syndrome Strategy Usage</div>
+        <div class="chart-card-sub">Distribution across six intervention strategies, post-training</div>
+        <div class="pie-wrap">
+          <svg width="140" height="140" viewBox="0 0 200 200" id="gm-pie-svg" style="flex-shrink:0;"></svg>
+          <div class="pie-legend" id="gm-pie-legend"></div>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
@@ -162,74 +169,111 @@
 </div>
 
 <script>
-(function(){
-  const groups=[{label:'Pre-Training',vals:[1,2,4]},{label:'2 Weeks Post',vals:[10,12,9]},{label:'6 Weeks Post',vals:[17,21,16]}];
-  const colors=['#9E1B32','#D4A5A5','#3A3F47'];
-  const W=340,H=160,pL=28,pR=8,pT=14,pB=36,cW=W-pL-pR,cH=H-pT-pB,maxV=25;
-  const groupW=cW/groups.length,barW=12,gap=3;
-  const svg=document.getElementById('gm-bar-svg');
-  const bars=[];
-  [0,10,20].forEach(v=>{
-    const y=pT+cH-(v/maxV)*cH;
-    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
-    l.setAttribute('x1',pL);l.setAttribute('x2',W-pR);l.setAttribute('y1',y);l.setAttribute('y2',y);
-    l.setAttribute('stroke',v===0?'#1a1a1a':'#eee');l.setAttribute('stroke-width',v===0?1.5:1);
+// BAR CHART: 10.8x Keyword Increase
+(function() {
+  const groups = [
+    {label:'Pre-Training', vals:[1,2,4]},
+    {label:'2 Weeks Post', vals:[10,12,9]},
+    {label:'6 Weeks Post', vals:[17,21,16]}
+  ];
+  const colors = ['#9E1B32','#D4A5A5','#3A3F47'];
+  const W=340,H=170,pL=30,pR=10,pT=16,pB=40,cW=W-pL-pR,cH=H-pT-pB,maxV=25;
+  const groupW=cW/groups.length, barW=13, gap=3;
+  const svg = document.getElementById('gm-bar-svg');
+  const bars = [];
+
+  [0,10,20].forEach(v => {
+    const y = pT+cH-(v/maxV)*cH;
+    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',pL); l.setAttribute('x2',W-pR);
+    l.setAttribute('y1',y); l.setAttribute('y2',y);
+    l.setAttribute('stroke',v===0?'#1a1a1a':'#eee');
+    l.setAttribute('stroke-width',v===0?1.5:1);
     svg.appendChild(l);
-    const lb=document.createElementNS('http://www.w3.org/2000/svg','text');
-    lb.setAttribute('x',pL-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
-    lb.setAttribute('font-size','9');lb.setAttribute('fill','#aaa');lb.setAttribute('font-family','Inter,sans-serif');
-    lb.textContent=v;svg.appendChild(lb);
+    const lb = document.createElementNS('http://www.w3.org/2000/svg','text');
+    lb.setAttribute('x',pL-4); lb.setAttribute('y',y+4);
+    lb.setAttribute('text-anchor','end'); lb.setAttribute('font-size','9');
+    lb.setAttribute('fill','#aaa'); lb.setAttribute('font-family','Inter,sans-serif');
+    lb.textContent = v; svg.appendChild(lb);
   });
-  groups.forEach((g,gi)=>{
-    const gx=pL+gi*groupW+groupW/2;
-    const totalW=(barW+gap)*3-gap,startX=gx-totalW/2;
-    g.vals.forEach((v,vi)=>{
-      const bh=(v/maxV)*cH,by=pT+cH-bh,bx=startX+vi*(barW+gap);
-      const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
-      rect.setAttribute('x',bx);rect.setAttribute('y',by);rect.setAttribute('width',barW);rect.setAttribute('height',bh);
-      rect.setAttribute('fill',colors[vi]);rect.setAttribute('rx','2');
-      rect.style.transformOrigin=`${bx+barW/2}px ${pT+cH}px`;
-      rect.classList.add('bar');rect.style.transitionDelay=(gi*0.12+vi*0.04)+'s';
-      svg.appendChild(rect);bars.push(rect);
-      if(v>=5){const vl=document.createElementNS('http://www.w3.org/2000/svg','text');vl.setAttribute('x',bx+barW/2);vl.setAttribute('y',by-3);vl.setAttribute('text-anchor','middle');vl.setAttribute('font-size','8');vl.setAttribute('fill',colors[vi]);vl.setAttribute('font-weight','600');vl.setAttribute('font-family','Inter,sans-serif');vl.textContent=v;svg.appendChild(vl);}
+
+  groups.forEach((g,gi) => {
+    const gx = pL+gi*groupW+groupW/2;
+    const totalW = (barW+gap)*3-gap;
+    const startX = gx-totalW/2;
+    g.vals.forEach((v,vi) => {
+      const bh=(v/maxV)*cH, by=pT+cH-bh, bx=startX+vi*(barW+gap);
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x',bx); rect.setAttribute('y',by);
+      rect.setAttribute('width',barW); rect.setAttribute('height',bh);
+      rect.setAttribute('fill',colors[vi]); rect.setAttribute('rx','2');
+      rect.style.transformOrigin = `${bx+barW/2}px ${pT+cH}px`;
+      rect.classList.add('bar');
+      rect.style.transitionDelay = (gi*0.12+vi*0.04)+'s';
+      svg.appendChild(rect); bars.push(rect);
+      if(v >= 5) {
+        const vl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        vl.setAttribute('x',bx+barW/2); vl.setAttribute('y',by-3);
+        vl.setAttribute('text-anchor','middle'); vl.setAttribute('font-size','8');
+        vl.setAttribute('fill',colors[vi]); vl.setAttribute('font-weight','600');
+        vl.setAttribute('font-family','Inter,sans-serif'); vl.textContent=v;
+        svg.appendChild(vl);
+      }
     });
-    const xl=document.createElementNS('http://www.w3.org/2000/svg','text');
-    xl.setAttribute('x',gx);xl.setAttribute('y',pT+cH+14);xl.setAttribute('text-anchor','middle');
-    xl.setAttribute('font-size','9');xl.setAttribute('fill','#1a1a1a');xl.setAttribute('font-weight','600');
-    xl.setAttribute('font-family','Inter,sans-serif');xl.textContent=g.label;svg.appendChild(xl);
+    const xl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    xl.setAttribute('x',gx); xl.setAttribute('y',pT+cH+14);
+    xl.setAttribute('text-anchor','middle'); xl.setAttribute('font-size','10');
+    xl.setAttribute('fill','#1a1a1a'); xl.setAttribute('font-weight','600');
+    xl.setAttribute('font-family','Inter,sans-serif'); xl.textContent=g.label;
+    svg.appendChild(xl);
   });
-  const obs=new IntersectionObserver(e=>{if(e[0].isIntersecting)bars.forEach(b=>b.classList.add('visible'));},{threshold:0.3});
+
+  const obs = new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting) bars.forEach(b => b.classList.add('visible'));
+  },{threshold:0.3});
   obs.observe(svg);
 })();
 
-(function(){
-  const segments=[
-    {label:'Fears vs. Reality',pct:24.8,color:'#9E1B32'},
-    {label:'Reverse Rabbit Hole',pct:22.4,color:'#D4A5A5'},
-    {label:'Eliminate "What If?" Bias',pct:19.2,color:'#3A3F47'},
-    {label:'Visualize Success',pct:14.4,color:'#C4807F'},
-    {label:'Emotions Portfolio',pct:10.4,color:'#6B2737'},
-    {label:'Comfort Past Self',pct:8.8,color:'#E8D0D0'},
+// PIE CHART: Imposter Syndrome Station Usage
+(function() {
+  const segments = [
+    {label:'Fears vs. Reality', pct:24.8, color:'#9E1B32'},
+    {label:'Reverse Rabbit Hole', pct:22.4, color:'#D4A5A5'},
+    {label:'Eliminate "What If?" Bias', pct:19.2, color:'#3A3F47'},
+    {label:'Visualize Success', pct:14.4, color:'#C4807F'},
+    {label:'Emotions Portfolio', pct:10.4, color:'#6B2737'},
+    {label:'Comfort Past Self', pct:8.8, color:'#E8D0D0'},
   ];
-  const svg=document.getElementById('gm-pie-svg');
-  const legend=document.getElementById('gm-pie-legend');
-  let angle=-90;const cx=100,cy=100,r=88;const paths=[];
-  segments.forEach(s=>{
-    const sweep=s.pct/100*360;
-    const start=angle*(Math.PI/180),end=(angle+sweep)*(Math.PI/180);
-    const x1=cx+r*Math.cos(start),y1=cy+r*Math.sin(start);
-    const x2=cx+r*Math.cos(end),y2=cy+r*Math.sin(end);
-    const large=sweep>180?1:0;
-    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  const svg = document.getElementById('gm-pie-svg');
+  const legend = document.getElementById('gm-pie-legend');
+  let angle = -90;
+  const cx=100,cy=100,r=88;
+  const paths = [];
+
+  segments.forEach(s => {
+    const sweep = s.pct/100*360;
+    const start = angle*(Math.PI/180), end = (angle+sweep)*(Math.PI/180);
+    const x1=cx+r*Math.cos(start), y1=cy+r*Math.sin(start);
+    const x2=cx+r*Math.cos(end), y2=cy+r*Math.sin(end);
+    const large = sweep>180?1:0;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d',`M ${cx},${cy} L ${x1},${y1} A ${r},${r} 0 ${large},1 ${x2},${y2} Z`);
-    path.setAttribute('fill',s.color);path.setAttribute('stroke','white');path.setAttribute('stroke-width','2');
-    path.classList.add('pie-path');path.style.transitionDelay=(paths.length*0.07)+'s';
-    svg.appendChild(path);paths.push(path);angle+=sweep;
-    const li=document.createElement('div');li.className='pie-legend-row';
-    li.innerHTML=`<div class="pie-legend-swatch" style="background:${s.color};"></div><div class="pie-legend-label">${s.label}</div><div class="pie-legend-pct">${s.pct}%</div>`;
+    path.setAttribute('fill',s.color);
+    path.setAttribute('stroke','white');
+    path.setAttribute('stroke-width','2');
+    path.classList.add('pie-path');
+    path.style.transitionDelay = (paths.length*0.07)+'s';
+    svg.appendChild(path); paths.push(path); angle+=sweep;
+
+    const li = document.createElement('div');
+    li.className = 'pie-legend-row';
+    li.innerHTML = `<div class="pie-legend-swatch" style="background:${s.color};"></div><div class="pie-legend-label">${s.label}</div><div class="pie-legend-pct">${s.pct}%</div>`;
     legend.appendChild(li);
   });
-  const obs=new IntersectionObserver(e=>{if(e[0].isIntersecting)paths.forEach(p=>p.classList.add('visible'));},{threshold:0.3});
+
+  const obs = new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting) paths.forEach(p => p.classList.add('visible'));
+  },{threshold:0.3});
   obs.observe(svg);
 })();
 </script>

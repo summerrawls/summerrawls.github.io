@@ -13,6 +13,7 @@
     --tea-green:#C3DBC5;
     --bubblegum-pink:#DB6C79;
     --white:#FFFFFF;
+    --light-teal:#5DCAA5;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Inter',sans-serif;color:var(--shadow-grey);background:var(--white);line-height:1.7;}
@@ -31,25 +32,26 @@
   .tier-2{background:var(--white);border-top:2px solid var(--tea-green);border-bottom:2px solid var(--tea-green);}
   .tier-3{background:var(--white);}
 
-  /* TIER 1 HERO WRAP */
+  /* HERO WRAP */
   .why-id-header{font-size:36px;margin-bottom:32px;}
-  .hero-wrap{display:grid;grid-template-columns:1fr 200px;gap:32px;align-items:start;margin-bottom:8px;}
-  .hero-text p:first-child{margin-top:0;}
-  .headshot{width:200px;height:240px;border-radius:16px;object-fit:cover;object-position:center top;display:block;}
+  .hero-wrap{display:grid;grid-template-columns:1fr 260px;gap:36px;align-items:start;margin-bottom:8px;}
+  .headshot{width:260px;height:320px;border-radius:16px;object-fit:cover;object-position:center top;display:block;}
 
-  blockquote{position:relative;padding:24px 28px;margin:36px 0;border-radius:12px;font-family:'Playfair Display',serif;font-style:italic;font-size:19px;line-height:1.5;}
+  /* BLOCKQUOTES */
+  blockquote{position:relative;padding:24px 28px;margin:36px 0;border-radius:12px;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;line-height:1.5;}
   blockquote.teal{background:rgba(0,109,119,0.08);border-left:4px solid var(--stormy-teal);}
   blockquote.pink{background:rgba(219,108,121,0.1);border-left:4px solid var(--bubblegum-pink);}
+  blockquote.green{background:rgba(195,219,197,0.3);border-left:4px solid var(--tea-green);}
   blockquote cite{display:block;font-family:'Inter',sans-serif;font-style:normal;font-size:13px;color:#5F5E5A;margin-top:12px;}
 
-  /* TIER 2 HEADER */
+  /* TIER 2 */
   .tier-2-header{text-align:left;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid #eee;}
   .tier-2-header h2{font-size:36px;margin-bottom:8px;}
   .tier-2-header p{color:#5F5E5A;font-size:15px;}
 
   /* PILLS */
   .tools-pills{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 12px;}
-  .tool-pill{display:inline-block;padding:6px 14px;border-radius:20px;font-size:13px;cursor:default;font-family:'Inter',sans-serif;font-weight:500;}
+  .tool-pill{display:inline-block;padding:6px 14px;border-radius:20px;font-size:13px;cursor:default;font-weight:500;}
   .tool-expert{background:var(--stormy-teal);color:var(--white);}
   .tool-proficient{background:var(--bubblegum-pink);color:var(--white);}
   .tool-familiar{background:var(--tea-green);color:var(--shadow-grey);}
@@ -72,7 +74,12 @@
   /* AI STRIP */
   .ai-intro{font-size:14px;color:#5F5E5A;margin-bottom:20px;max-width:700px;line-height:1.6;}
   .ai-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:56px;}
-  .ai-stage{background:#fafafa;border-left:3px solid var(--bubblegum-pink);padding:14px;border-radius:0 8px 8px 0;}
+  .ai-stage{background:#fafafa;padding:14px;border-radius:0 8px 8px 0;border-left:3px solid var(--bubblegum-pink);}
+  .ai-stage.analyze{border-left-color:var(--stormy-teal);}
+  .ai-stage.design{border-left-color:var(--tea-green);}
+  .ai-stage.develop{border-left-color:var(--shadow-grey);}
+  .ai-stage.implement{border-left-color:var(--bubblegum-pink);}
+  .ai-stage.evaluate{border-left-color:var(--light-teal);}
   .ai-stage p.label{font-size:12px;color:#5F5E5A;margin:0 0 6px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;}
   .ai-stage p.text{font-size:13px;font-weight:500;margin:0;color:var(--shadow-grey);}
 
@@ -82,11 +89,11 @@
   .callout{background:rgba(195,219,197,0.4);border-left:3px solid var(--tea-green);border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0;font-size:14px;}
   .resume-divider{border:none;border-top:1px solid #ddd;margin:28px 0;}
 
-  /* EDUCATION PILLS */
+  /* EDU GRID */
   .edu-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 24px;}
   .edu-card{border-radius:10px;padding:16px 14px;font-size:13px;line-height:1.5;}
   .edu-card strong{display:block;font-size:13px;margin-bottom:4px;}
-  .edu-card span{font-size:12px;color:#555;}
+  .edu-card span{display:block;font-size:12px;color:#555;}
   .edu-ms{background:rgba(0,109,119,0.1);border:1px solid rgba(0,109,119,0.2);}
   .edu-ma{background:rgba(0,109,119,0.07);border:1px solid rgba(0,109,119,0.15);}
   .edu-pmp{background:rgba(195,219,197,0.5);border:1px solid rgba(195,219,197,0.8);}
@@ -132,7 +139,8 @@
   .stagger-5{transition-delay:0.5s;}
 
   @media(max-width:700px){
-    .hero-wrap{grid-template-columns:1fr;}.hero-wrap .headshot{width:160px;height:190px;margin:0 auto 24px;}
+    .hero-wrap{grid-template-columns:1fr;}
+    .hero-wrap .headshot{width:100%;height:280px;margin:0 auto 24px;}
     .ai-strip{grid-template-columns:1fr;}
     .jobaid-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     .jobaid-card.wide{grid-column:span 2;}
@@ -164,25 +172,31 @@
 
       <div class="hero-wrap">
         <div class="hero-text">
-          <p class="fade-up">I love the puzzle of it. Someone hands me a business problem, and my job is to dig past the surface until I find the actual knowledge or skill gap underneath, then build something that closes it. Done right, the result is more than a training. It's someone walking into their role with real confidence, because they finally understand the "why" behind what they're doing.</p>
+          <p class="fade-up">I love the puzzle of it. Someone hands me a business problem, and my job is to dig past the surface until I find the actual knowledge or skill gap underneath, then build a learning experience that closes it. Done right, the result is more than a training. Great design helps us feel more confident, equipped, and successful, and it elevates the way we work to drive us closer to our goals.</p>
+          <p class="fade-up">I also love the systems behind great instructional design. I hold a PMP certification because I believe in building logical, transferrable processes that create a strong foundation for every project. A solid design system doesn't box a project in. It's what lets a designer feel free to be creative and flex to fit each learner's specific needs without falling apart under pressure.</p>
         </div>
         <img src="images/summer-headshot.jpg" alt="Summer Rawls" class="headshot fade-in">
       </div>
 
-      <p class="fade-up">I'm also, at heart, a systems person. I hold a PMP certification because I believe in building strong, repeatable processes, and I've found that the stronger the foundation, the more flexibility you actually get. A solid design system doesn't box a project in. It's what lets a project flex to fit each learner's specific needs without falling apart under pressure.</p>
-
       <blockquote class="teal fade-up">
         "Sometimes in hiring decisions, you take a risk on an external hire, and you get lucky and find a Summer."
-        Jennifer Roth-Burnette, Director, University of Alabama
+        Jennifer Roth-Burnette, University of Alabama Director, when considering an external applicant for a role on the Learning Commons team
       </blockquote>
 
-      <p class="fade-up">That kind of trust is something I try to earn on every team I join. I'm self-sufficient and accountable, the kind of person a team can hand a high-visibility project to and know it will get done well. I also genuinely enjoy mentoring, and I've taught new skills to teammates across every role I've held. Independence and collaboration aren't opposites to me. They're both part of doing the work right.</p>
+      <p class="fade-up">That kind of trust is something I try to earn on every team I join. I'm self-sufficient and accountable, the kind of person a team can hand a high-visibility project to and know it will get done well. I'm also, at heart, a team player, and have formed wonderful professional partnerships with every team I've been part of. Independence and collaboration aren't opposites to me. They're both part of doing the work right.</p>
 
-      <p class="fade-up">AI is a core part of how I work now, not a gimmick layered on top. I use it as a thought partner, an automator, a data analyst, a drafting tool, even a design assistant, woven into every stage of my process. But I hold my work to a quality bar AI can't meet on its own, so nothing goes out the door without my own judgment and review behind it. Learning design still needs a human hand on the wheel, and I've built my workflow around using AI ethically, efficiently, and with that standard intact.</p>
+      <p class="fade-up">I also genuinely enjoy mentoring, drawing on my academic background in instructional technology and my professional background in coaching, learning, and development. I've led teams formally as a people manager and continue to mentor informally, sharing frameworks, feedback, and hard-won knowledge with teammates who are earlier in their careers.</p>
 
       <blockquote class="pink fade-up">
         "Summer, can you just clone yourself?"
-        Emily Cavender, Learning &amp; Performance Team Lead, Lyft
+        Emily Cavender, Lyft Team Lead, when asked about filling a designer role on the Learning &amp; Performance team
+      </blockquote>
+
+      <p class="fade-up">AI is a core part of how I work. I use it as a thought partner, an automator, a data analyst, a drafting tool, even a design assistant, woven into every stage of my process. But I hold my work to a quality bar AI can't meet on its own, so nothing goes out the door without my own judgment and review behind it. Learning design still needs a human hand on the wheel, and I've built my workflow around using AI ethically, efficiently, and with that standard intact.</p>
+
+      <blockquote class="green fade-up">
+        "Summer put together an amazing training on the new Quality rubric launching soon. She was able to build eight modules in a matter of days, and it's amazing how much detail each one goes into. This is what 'customer obsessed' looks like!"
+        Grayson Collins, Lyft Program Lead, Trust and Safety Quality
       </blockquote>
 
       <p class="fade-up">When a project is big, visible, and needs to land well, I'm the person people want on it. When something needs to move fast without cutting corners, that's also me. I design learning that elevates how people work, and I bring that same standard to every team I'm part of.</p>
@@ -238,11 +252,11 @@
       <h3 class="fade-up" style="margin-bottom:8px;">How I use AI at every stage of the design process</h3>
       <p class="ai-intro fade-up">The ID field is actively evolving to use AI tools efficiently and ethically. For me, AI isn't just a gimmick or a text generator, but an active partner in every phase of my design cycle.</p>
       <div class="ai-strip">
-        <div class="ai-stage fade-up stagger-1"><p class="label">Analyze</p><p class="text">Synthesize performance data to locate knowledge and skill gaps, draft intake questions, and brief product launches.</p></div>
-        <div class="ai-stage fade-up stagger-2"><p class="label">Design</p><p class="text">Draft outlines and storyboards, brainstorm activity ideas, and structure modules with AI as a thought partner.</p></div>
-        <div class="ai-stage fade-up stagger-3"><p class="label">Develop</p><p class="text">Draft slide and eLearning content, generate graphics and video assets, and write assessment questions.</p></div>
-        <div class="ai-stage fade-up stagger-4"><p class="label">Implement</p><p class="text">Build facilitator guides, draft training comms and announcements, and create quick-reference materials.</p></div>
-        <div class="ai-stage fade-up stagger-5"><p class="label">Evaluate</p><p class="text">Analyze survey and performance data, build impact reports, and create data visualizations.</p></div>
+        <div class="ai-stage analyze fade-up stagger-1"><p class="label">Analyze</p><p class="text">Synthesize performance data to locate knowledge and skill gaps, draft intake questions, and brief product launches.</p></div>
+        <div class="ai-stage design fade-up stagger-2"><p class="label">Design</p><p class="text">Draft outlines and storyboards, brainstorm activity ideas, and structure modules with AI as a thought partner.</p></div>
+        <div class="ai-stage develop fade-up stagger-3"><p class="label">Develop</p><p class="text">Draft slide and eLearning content, generate graphics and video assets, and write assessment questions.</p></div>
+        <div class="ai-stage implement fade-up stagger-4"><p class="label">Implement</p><p class="text">Build facilitator guides, draft training comms and announcements, and create quick-reference materials.</p></div>
+        <div class="ai-stage evaluate fade-up stagger-5"><p class="label">Evaluate</p><p class="text">Analyze survey and performance data, build impact reports, and create data visualizations.</p></div>
       </div>
 
       <h3 class="fade-up" style="margin-bottom:20px;">Resume highlights</h3>
@@ -276,7 +290,7 @@
             <span>3.9 GPA &middot; Alpha Chi &middot; Sigma Tau Delta</span>
           </div>
         </div>
-        <a href="https://drive.google.com/file/d/1QPJsBtEyAFmo3XEMDz5zjfn-oqT7exHH/view" class="download-btn" target="_blank">Download full resume</a>
+        <a href="https://drive.google.com/file/d/1QPJsBtEyAFmo3XEMDz5zjfn-oqT7exHH/view" class="download-btn" target="_blank">View full resume</a>
       </div>
 
       <h3 class="fade-up" style="margin-bottom:8px;">Instructional Design Theories Inherent to My Work</h3>
@@ -323,7 +337,7 @@
     <div class="container">
       <div class="tier-3-inner">
         <h2 class="fade-up" style="margin-bottom:24px;font-size:32px;">Beyond the work</h2>
-        <p class="fade-up">When I'm not designing learning experiences, you'll usually find me with a book in hand. I'm working toward a master's degree in creative writing and literature through the Harvard Extension School, I'm a member of The Porch, a Nashville writers' community, and my shelves lean heavily on speculative and literary fiction. It's probably not a coincidence that the same instinct for shaping a good story shows up in how I write instructional content.</p>
+        <p class="fade-up">When I'm not designing learning experiences, you'll usually find me with a book in hand. I'm working toward a master's degree in creative writing and literature through the Harvard Extension School, I'm a member of Nashville writers' community The Porch, and my shelves lean heavily on speculative and literary fiction. It's probably not a coincidence that the same instinct for shaping a good story shows up in how I write instructional content.</p>
         <p class="fade-up">Other ways I spend my time outside of my career:</p>
         <ul class="fun-list">
           <li class="fade-up stagger-1">Cheering on Liverpool FC and Nashville SC. You'll Never Walk Alone!</li>
